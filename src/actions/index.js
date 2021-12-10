@@ -7,14 +7,14 @@ import axios from "axios";
 
 export const FETCH_START = "FETCH_SMURFS";
 
-export const fetcHStart = () => {
+export const fetchStart = () => {
   return { type: FETCH_START };
 };
 
-export const FETCH_SUCESS = "FETCH_SUCESS";
+export const FETCH_SUCCESS = "FETCH_SUCESS";
 
 export const fetchSuccess = (smurfs) => {
-  return { type: FETCH_SUCESS, payload: smurfs };
+  return { type: FETCH_SUCCESS, payload: smurfs };
 };
 
 export const FETCH_FAILED = "FETCH_FAILED";
@@ -23,8 +23,28 @@ export const fetchFailed = () => {
   return { type: FETCH_FAILED };
 };
 
+export const ERROR_MESSAGE = "ERROR_MESSAGE";
+
+export const errorMessage = (error) => {
+  return { type: ERROR_MESSAGE, payload: error };
+};
+
 export const ADD_SMURF = "ADD_SMURF";
 
 export const addSmurf = (newSmurf) => {
   return { type: ADD_SMURF, payload: newSmurf };
+};
+
+export const getSmurfs = () => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    axios
+      .get("http://localhost:3333/smurfs")
+      .then((res) => {
+        dispatch(fetchSuccess(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 };

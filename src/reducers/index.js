@@ -1,9 +1,15 @@
-import { FETCH_START, FETCH_SUCESS, FETCH_FAILED, ADD_SMURF } from "../actions";
+import {
+  FETCH_START,
+  FETCH_SUCCESS,
+  FETCH_FAILED,
+  ERROR_MESSAGE,
+  ADD_SMURF,
+} from "../actions";
 
 export const initialState = {
   smurfs: [],
   isLoading: false,
-  errors: "",
+  error: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -11,11 +17,10 @@ const reducer = (state = initialState, action) => {
     case FETCH_START:
       return {
         ...state,
-        isLoading: true,
+        isLoading: !state.isLoading,
       };
-    case FETCH_SUCESS:
+    case FETCH_SUCCESS:
       return {
-        ...state,
         smurfs: action.payload,
         isLoading: false,
       };
@@ -23,11 +28,17 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         smurfs: [],
-        errors: "fetching smurfs failed",
+        error: "fetching smurfs failed",
+      };
+    case ERROR_MESSAGE:
+      return {
+        ...state,
+        error: "All fields are required in order to add a smurf",
       };
     case ADD_SMURF:
       return {
         ...state,
+        error: "",
         smurfs: [
           ...state.smurfs,
           {
