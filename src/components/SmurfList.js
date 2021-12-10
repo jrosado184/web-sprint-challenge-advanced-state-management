@@ -4,11 +4,9 @@ import { getSmurfs } from "../actions";
 import Smurf from "./Smurf";
 
 const SmurfList = (props) => {
-  console.log(props);
   const { smurfs } = props;
 
   useEffect(() => {
-    console.log(props);
     props.dispatch(getSmurfs());
   }, []);
 
